@@ -1,0 +1,8 @@
+<resources>
+    <!-- Preference Titles -->
+    <string name="app_name">ClipboardManager</string>
+
+    <string name="ui">UI</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_def_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
+</resources>
