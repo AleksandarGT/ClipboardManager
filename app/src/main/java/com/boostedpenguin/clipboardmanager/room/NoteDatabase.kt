@@ -33,6 +33,16 @@ abstract class NoteDatabase : RoomDatabase() {
                     noteDao.insert(Note("Bull", "awe"))
                     noteDao.insert(Note("Bull", "awe"))
                     noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
+                    noteDao.insert(Note("Bull", "awe"))
 
                 }
             }
