@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.boostedpenguin.clipboardmanager.room.Note
+import java.text.DateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
     private var notes: List<Note> = ArrayList()
@@ -32,8 +35,19 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
         val currentNote = notes[position]
-        holder.textViewTitle.text = currentNote.title
-        holder.textViewDescription.text = currentNote.description
+
+        var displayContent = if(currentNote.content.length > 20) {
+            "${currentNote.content.substring(0, 19)}..."
+        } else {
+            currentNote.content
+        }
+
+
+        var readable = android.text.format.DateFormat.format("dd.MM.yyyy", currentNote.date)
+
+        holder.textViewDescription.text = readable
+
+        holder.textViewTitle.text = displayContent
         holder.textViewId.text = currentNote.id.toString()
 
         if(selectedPositions.contains(position)) {

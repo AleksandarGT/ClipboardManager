@@ -23,5 +23,6 @@
     <color name="dThemePrimaryColor">#454545</color>
     <color name="dThemePrimaryDarkColor">#282828</color>
     <color name="dThemePrimaryLightColor">#555555</color>
+    <color name="buttonSave">#CA7900</color>
 
 </resources>

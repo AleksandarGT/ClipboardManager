@@ -169,9 +169,11 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_add -> {
                 // Fixme Fill with actual content
 
-                model.insert(Note("New title", "Desc cool description RNG:"))
-                model.selectedNote.clear()
-                model.clearPositions()
+                startActivity(Intent(this, CreateNoteActivity::class.java))
+
+                //model.insert(Note("New title", "Desc cool description RNG:"))
+                //model.selectedNote.clear()
+                //model.clearPositions()
                 true
             }
             R.id.action_delete -> {
