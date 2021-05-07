@@ -1,11 +1,19 @@
 package com.boostedpenguin.clipboardmanager
 
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
@@ -13,6 +21,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.boostedpenguin.clipboardmanager.databinding.ActivityMainBinding
 import com.boostedpenguin.clipboardmanager.room.Note
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -89,6 +98,20 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+
+        adapter.setOnButtonCopyClickListener(object : NoteAdapter.OnButtonCopyClickListener {
+            override fun onButtonClick(position: Int, note: Note) {
+                val clipboard: ClipboardManager =
+                    getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("clipboard_content", note.content)
+                clipboard.setPrimaryClip(clip)
+
+                Toast.makeText(applicationContext, "Copied!", Toast.LENGTH_SHORT).show()
+
+            }
+
+        })
+
         model.isItemSelected.observe(this, Observer { it ->
             adapter.updateVisibility(it)
             if(!it) {
@@ -151,6 +174,8 @@ class MainActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return when(item.itemId) {
@@ -166,6 +191,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
+            R.id.main_menu_search -> {
+                true
+            }
             R.id.main_menu_add -> {
                 // Fixme Fill with actual content
 
@@ -177,9 +205,27 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_delete -> {
-                model.deleteNotes()
-                model.clearPositions()
-                model.isItemSelected.value = false;
+
+                val alertDialog: AlertDialog? = this.let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setPositiveButton("DELETE"
+                        ) { _, _ ->
+                            model.deleteNotes()
+                            model.clearPositions()
+                            model.isItemSelected.value = false;
+                        }
+                        setNegativeButton("Cancel"
+                        ) { dialog, _ ->
+                            // User cancelled the dialog
+                            dialog.cancel()
+                        }
+                        setTitle("Delete selected items")
+                    }
+                    builder.create()
+                }
+
+                alertDialog?.show()
                 true
             }
             android.R.id.home -> {

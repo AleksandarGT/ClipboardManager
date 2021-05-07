@@ -19,6 +19,8 @@
     <color name="primaryLightColor">#ffffff</color>
     <color name="primaryDarkColor">#b7b7b7</color>
     <color name="primaryTextColor">#000000</color>
+
+    <color name="error">#ff3333</color>
     
     <color name="dThemePrimaryColor">#454545</color>
     <color name="dThemePrimaryDarkColor">#282828</color>

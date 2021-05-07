@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +19,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
     private var listener: OnCheckboxClickListener? = null
     private var longClickListener: OnLongItemClickListener? = null
     private var itemListener: OnItemClickListener? = null
+    private var buttonCopyListener: OnButtonCopyClickListener? = null
 
     private var isVisible = false;
     var selectedPositions = mutableListOf<Int>()
@@ -81,10 +83,19 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         internal val textViewTitle: TextView = itemView.findViewById(R.id.textView)
         internal val textViewDescription: TextView = itemView.findViewById(R.id.txtDesc)
         internal val textViewId: TextView = itemView.findViewById(R.id.txtId)
+        private val buttonCopy: Button = itemView.findViewById(R.id.buttonCopy)
+
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
         val view: ConstraintLayout = itemView.findViewById(R.id.main)
 
         init {
+            buttonCopy.setOnClickListener {
+                val position = adapterPosition
+
+                if (buttonCopyListener != null && position != RecyclerView.NO_POSITION) {
+                    buttonCopyListener!!.onButtonClick(position, notes[adapterPosition])
+                }
+            }
 
             // Checkbox click
             checkbox.setOnClickListener {
@@ -115,6 +126,14 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
                 }
             }
         }
+    }
+
+    interface OnButtonCopyClickListener {
+        fun onButtonClick(position: Int, note: Note)
+    }
+
+    fun setOnButtonCopyClickListener(listener: OnButtonCopyClickListener?) {
+        this.buttonCopyListener = listener
     }
 
     interface OnCheckboxClickListener {

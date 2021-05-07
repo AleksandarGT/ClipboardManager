@@ -1,10 +1,12 @@
 package com.boostedpenguin.clipboardmanager
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.boostedpenguin.clipboardmanager.databinding.ActivityCreateNoteBinding
 import com.boostedpenguin.clipboardmanager.room.Note
@@ -30,7 +32,13 @@ class CreateNoteActivity : AppCompatActivity() {
         val item = menu.findItem(R.id.action_save)
         item.actionView.setOnClickListener {
             val content = findViewById<EditText>(R.id.note_content).text.toString()
-            model.insert(Note(content))
+            if(!content.isNullOrEmpty()) {
+                model.insert(Note(content))
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            else {
+                Toast.makeText(this, "Can't save an empty clipboard!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return true
