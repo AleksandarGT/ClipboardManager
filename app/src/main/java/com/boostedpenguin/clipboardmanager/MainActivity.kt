@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        //TODO Configure listeners
         model.allNotes.observe(this, Observer { it ->
             it.let {adapter.setNotes(it)}
         })
@@ -78,6 +77,18 @@ class MainActivity : AppCompatActivity() {
                     model.addPosition(position)
                     model.selectedNote.add(note)
 
+                    adapter.notifyDataSetChanged()
+                }
+            }
+        })
+
+        adapter.setOnCardClickListener(object : NoteAdapter.OnCardClickListener {
+            override fun onCardClick(position: Int, note: Note) {
+                if(model.isItemSelected.value == false) {
+                    Toast.makeText(applicationContext, "Card clicked ${note.content}", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    handleContent(position, note)
                     adapter.notifyDataSetChanged()
                 }
             }
@@ -98,7 +109,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
         adapter.setOnButtonCopyClickListener(object : NoteAdapter.OnButtonCopyClickListener {
             override fun onButtonClick(position: Int, note: Note) {
                 val clipboard: ClipboardManager =
@@ -106,10 +116,8 @@ class MainActivity : AppCompatActivity() {
                 val clip = ClipData.newPlainText("clipboard_content", note.content)
                 clipboard.setPrimaryClip(clip)
 
-                Toast.makeText(applicationContext, "Copied!", Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(applicationContext, "Copied", Toast.LENGTH_SHORT).show()
             }
-
         })
 
         model.isItemSelected.observe(this, Observer { it ->
@@ -192,6 +200,14 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.main_menu_search -> {
+                true
+            }
+            R.id.action_favorite -> {
+                model.selectedNote.forEach {
+                    it.favorite = !it.favorite
+                }
+
+                model.updateNotes(model.selectedNote)
                 true
             }
             R.id.main_menu_add -> {

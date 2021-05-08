@@ -12,4 +12,5 @@ data class Note(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
     var date: Date = Calendar.getInstance().time
+    var favorite: Boolean = false
 }

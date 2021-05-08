@@ -44,6 +44,10 @@ class MainActivityViewModel(private val repo: NoteRepository) : ViewModel() {
         repo.insert(note)
     }
 
+    fun updateNotes(notes: List<Note>) = viewModelScope.launch {
+        repo.updateNotes(notes)
+    }
+
     fun deleteAll() = viewModelScope.launch {
         repo.deleteAll()
     }

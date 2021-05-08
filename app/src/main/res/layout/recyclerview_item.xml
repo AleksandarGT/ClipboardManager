@@ -1,103 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingVertical="8dp">
-
-
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:elevation="5dp"
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideMarginLeft"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        style="@style/MainRecyclerText"
-        android:id="@+id/textView"
+    android:layout_height="80dp"
+    android:id="@+id/main"
+    >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
         android:layout_width="0dp"
-        android:elevation="5dp"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:paddingTop="5dp"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideMidStart"
-        app:layout_constraintStart_toEndOf="@+id/checkbox"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtId"
-        android:layout_width="0dp"
-        android:elevation="5dp"
-        android:layout_height="wrap_content"
-        android:text="Big content"
-        android:textAlignment="textEnd"
-        android:layout_marginRight="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideMidStart"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/txtDesc"
-        android:elevation="5dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Big content"
-        android:paddingBottom="5dp"
-        app:layout_constraintEnd_toStartOf="@+id/txtId"
-        app:layout_constraintStart_toEndOf="@+id/checkbox"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonCopy"
-        style="@style/RecyclerView.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/ic_baseline_content_copy_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideRight"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/recycler_background"
-        style="@style/RecyclerViewStyle"
         android:layout_height="0dp"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/main"
-        app:layout_constraintEnd_toEndOf="@+id/guideMidStart"
-        app:layout_constraintStart_toStartOf="@+id/checkbox"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCopy"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:elevation="5dp"
+                android:visibility="visible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/MainRecyclerText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                android:paddingTop="5dp"
+                android:text="TextView"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@+id/favorite_status"
+                app:layout_constraintStart_toEndOf="@+id/checkbox"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/favorite_status"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="invisible"
+                app:tint="@color/black"
+                android:src="@drawable/ic_baseline_favorite_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtId"
+                android:layout_width="0dp"
+                android:elevation="5dp"
+                android:layout_height="wrap_content"
+                android:text="Big content"
+                android:paddingBottom="5dp"
+                android:textAlignment="textEnd"
+                android:layout_marginRight="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/txtDesc"
+                android:elevation="5dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Big content"
+                android:paddingBottom="5dp"
+                app:layout_constraintEnd_toStartOf="@+id/txtId"
+                app:layout_constraintStart_toEndOf="@+id/checkbox"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideRight"
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <ImageButton
+        android:id="@+id/buttonCopy"
+        android:layout_weight="1"
+        android:src="@drawable/ic_baseline_content_copy_24"
+        android:tint="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.97" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideMidStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.8" />
+        android:adjustViewBounds="true"
+        android:padding="15dp"
+        android:layout_margin="10dp"
+        android:elevation="5dp"
+        android:scaleType="center"
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideMarginLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.03" />
+        android:backgroundTint="@color/white"
+        app:icon="@drawable/ic_baseline_content_copy_24"
 
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

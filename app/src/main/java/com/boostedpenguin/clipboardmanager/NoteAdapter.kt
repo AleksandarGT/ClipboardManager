@@ -4,9 +4,8 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.TextView
+import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.boostedpenguin.clipboardmanager.room.Note
@@ -20,6 +19,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
     private var longClickListener: OnLongItemClickListener? = null
     private var itemListener: OnItemClickListener? = null
     private var buttonCopyListener: OnButtonCopyClickListener? = null
+    private var cardClickListener: OnCardClickListener? = null
 
     private var isVisible = false;
     var selectedPositions = mutableListOf<Int>()
@@ -52,6 +52,13 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         holder.textViewTitle.text = displayContent
         holder.textViewId.text = currentNote.id.toString()
 
+        if(notes[position].favorite) {
+            holder.favoriteIcon.visibility = View.VISIBLE
+        }
+        else {
+            holder.favoriteIcon.visibility = View.INVISIBLE
+        }
+
         if(selectedPositions.contains(position)) {
             holder.view.setBackgroundColor(Color.GRAY)
         }
@@ -83,12 +90,32 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         internal val textViewTitle: TextView = itemView.findViewById(R.id.textView)
         internal val textViewDescription: TextView = itemView.findViewById(R.id.txtDesc)
         internal val textViewId: TextView = itemView.findViewById(R.id.txtId)
-        private val buttonCopy: Button = itemView.findViewById(R.id.buttonCopy)
-
+        private val buttonCopy: ImageButton = itemView.findViewById(R.id.buttonCopy)
+        private val cardView: CardView = itemView.findViewById(R.id.cardView)
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
         val view: ConstraintLayout = itemView.findViewById(R.id.main)
 
+        internal val favoriteIcon: ImageView = itemView.findViewById(R.id.favorite_status)
+
         init {
+            cardView.setOnClickListener {
+                val position = adapterPosition
+
+                if (cardClickListener != null && position != RecyclerView.NO_POSITION) {
+                    cardClickListener!!.onCardClick(position, notes[adapterPosition])
+                }
+            }
+
+            cardView.setOnLongClickListener {
+                val position = adapterPosition
+
+                if (longClickListener != null && position != RecyclerView.NO_POSITION) {
+                    longClickListener!!.onLongClick(position, notes[adapterPosition])
+                }
+
+                true;
+            }
+
             buttonCopy.setOnClickListener {
                 val position = adapterPosition
 
@@ -126,6 +153,14 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
                 }
             }
         }
+    }
+
+    interface OnCardClickListener {
+        fun onCardClick(position: Int, note: Note)
+    }
+
+    fun setOnCardClickListener(listener: OnCardClickListener?) {
+        this.cardClickListener = listener
     }
 
     interface OnButtonCopyClickListener {
