@@ -1,5 +1,6 @@
 package com.boostedpenguin.clipboardmanager.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -26,4 +27,6 @@ interface NoteDao {
     @Update
     suspend fun updateNotes(notes: List<Note>)
 
+    @Query("SELECT * FROM notes_table WHERE id=:id ")
+    suspend fun getNote(id: Int): Note
 }

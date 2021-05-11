@@ -1,18 +1,14 @@
 package com.boostedpenguin.clipboardmanager
 
-import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -86,6 +82,7 @@ class MainActivity : AppCompatActivity() {
             override fun onCardClick(position: Int, note: Note) {
                 if(model.isItemSelected.value == false) {
                     Toast.makeText(applicationContext, "Card clicked ${note.content}", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(applicationContext, EditNoteActivity::class.java).putExtra("NOTE_SELECTED", note))
                 }
                 else {
                     handleContent(position, note)

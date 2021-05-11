@@ -7,6 +7,11 @@ class NoteRepository(private val noteDao: NoteDao) {
     val allNotes = noteDao.getAll()
 
     @WorkerThread
+    suspend fun getNote(id: Int) : Note {
+        return noteDao.getNote(id)
+    }
+
+    @WorkerThread
     suspend fun insert(note: Note) {
         noteDao.insert(note)
     }
@@ -14,6 +19,11 @@ class NoteRepository(private val noteDao: NoteDao) {
     @WorkerThread
     suspend fun delete(note: Note) {
         noteDao.delete(note)
+    }
+
+    @WorkerThread
+    suspend fun update(note: Note) {
+        noteDao.update(note)
     }
 
     @WorkerThread
