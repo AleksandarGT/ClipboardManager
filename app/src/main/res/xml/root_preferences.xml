@@ -11,5 +11,13 @@
             app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
+    <PreferenceCategory>
+        <Preference
+            app:key="about"
+            app:title="Send feedback"/>
+        <Preference
+            app:key="contact"
+            app:title="Contact" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

@@ -5,22 +5,25 @@ import com.boostedpenguin.clipboardmanager.room.Note
 import com.boostedpenguin.clipboardmanager.room.NoteRepository
 import kotlinx.coroutines.launch
 
+
 class EditNoteActivityViewModel(private val repo: NoteRepository) : ViewModel() {
 
-    lateinit var currentNote: Note
+
+    val currentNote: MutableLiveData<Note> by lazy {
+        MutableLiveData<Note>()
+    }
 
     fun update(content: String) = viewModelScope.launch {
-        currentNote.content = content
-        repo.update(currentNote)
+        currentNote.value?.content = content
+        repo.update(currentNote.value!!)
     }
 
     fun deleteCurrent() = viewModelScope.launch {
-        repo.delete(currentNote)
+        repo.delete(currentNote.value!!)
     }
 
     fun updateFavorite() = viewModelScope.launch{
-        currentNote.favorite = !currentNote.favorite
-        repo.update(currentNote)
+        currentNote.value?.favorite = currentNote.value?.favorite!!.not()
     }
 }
 

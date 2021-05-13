@@ -22,6 +22,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         }
+
+        setSupportActionBar(findViewById(R.id.settingsToolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         PreferenceManager.getDefaultSharedPreferences(this)

@@ -4,6 +4,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,11 +14,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.boostedpenguin.clipboardmanager.databinding.ActivityMainBinding
 import com.boostedpenguin.clipboardmanager.room.Note
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class MainActivity : AppCompatActivity() {
@@ -70,8 +75,7 @@ class MainActivity : AppCompatActivity() {
                 model.isItemSelected.value = model.isItemSelected.value?.not()
 
                 if(model.isItemSelected.value == true) {
-                    model.addPosition(position)
-                    model.selectedNote.add(note)
+                    model.addPosition(position, note)
 
                     adapter.notifyDataSetChanged()
                 }
@@ -81,7 +85,6 @@ class MainActivity : AppCompatActivity() {
         adapter.setOnCardClickListener(object : NoteAdapter.OnCardClickListener {
             override fun onCardClick(position: Int, note: Note) {
                 if(model.isItemSelected.value == false) {
-                    Toast.makeText(applicationContext, "Card clicked ${note.content}", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(applicationContext, EditNoteActivity::class.java).putExtra("NOTE_SELECTED", note))
                 }
                 else {
@@ -120,7 +123,6 @@ class MainActivity : AppCompatActivity() {
         model.isItemSelected.observe(this, Observer { it ->
             adapter.updateVisibility(it)
             if(!it) {
-                model.selectedNote.clear()
                 model.clearPositions()
             }
             adapter.notifyDataSetChanged();
@@ -132,19 +134,19 @@ class MainActivity : AppCompatActivity() {
         model.selectedCheckboxes.observe(this, Observer { it ->
             adapter.selectedPositions = it.toMutableList();
         })
+
+        model.selectedNote.observe(this, Observer {
+            invalidateOptionsMenu()
+        })
     }
 
     fun handleContent(position: Int, note: Note) {
         if(model.isItemSelected.value == true) {
             if(model.selectedCheckboxes.value?.contains(position)!!) {
-                model.removePosition(position)
-                model.selectedNote.removeAll {
-                    it.id == note.id
-                }
+                model.removePosition(position, note)
             }
             else {
-                model.addPosition(position)
-                model.selectedNote.add(note)
+                model.addPosition(position, note)
             }
         }
         else {
@@ -175,6 +177,20 @@ class MainActivity : AppCompatActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
         }
 
+        if(model.isItemSelected.value == true) {
+            if(model.selectedNote.value?.size!! > 0) {
+                menu.findItem(R.id.selected_action_favorite).isEnabled = true
+                menu.findItem(R.id.selected_action_share).isEnabled = true
+                menu.findItem(R.id.selected_action_delete).isEnabled = true
+            }
+            else {
+                menu.findItem(R.id.selected_action_favorite).isEnabled = false
+                menu.findItem(R.id.selected_action_share).isEnabled = false
+                menu.findItem(R.id.selected_action_delete).isEnabled = false
+            }
+        }
+
+
 
         return super.onPrepareOptionsMenu(menu)
     }
@@ -184,14 +200,6 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return when(item.itemId) {
-            R.id.main_menu_1 -> {
-                Toast.makeText(applicationContext, "Toasty1", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.main_menu_2 -> {
-                Toast.makeText(applicationContext, "Toasty2", Toast.LENGTH_SHORT).show()
-                true
-            }
             R.id.main_menu_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
@@ -199,28 +207,18 @@ class MainActivity : AppCompatActivity() {
             R.id.main_menu_search -> {
                 true
             }
-            R.id.action_favorite -> {
-                model.selectedNote.forEach {
-                    it.favorite = !it.favorite
-                }
-
-                model.updateNotes(model.selectedNote)
+            R.id.selected_action_favorite -> {
+                model.favoriteNotes()
                 true
             }
             R.id.main_menu_add -> {
-                // Fixme Fill with actual content
-
                 startActivity(Intent(this, CreateNoteActivity::class.java))
-
-                //model.insert(Note("New title", "Desc cool description RNG:"))
-                //model.selectedNote.clear()
-                //model.clearPositions()
                 true
             }
-            R.id.action_delete -> {
+            R.id.selected_action_delete -> {
 
                 val alertDialog: AlertDialog? = this.let {
-                    val builder = AlertDialog.Builder(it)
+                    val builder = MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
                     builder.apply {
                         setPositiveButton("DELETE"
                         ) { _, _ ->
@@ -251,7 +249,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun exitSelectMode() {
         model.isItemSelected.value = false
-        model.selectedNote.clear()
         model.clearPositions()
     }
 

@@ -17,6 +17,31 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AlertDialogTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/white</item>
+    </style>
+
+    <style name="NoteContentTextbox" parent="Widget.AppCompat.EditText">
+        <item name="android:backgroundTint">@color/dThemePrimaryLightColor</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">
+            @drawable/layout_bg
+        </item>
+    </style>
+
+    <style name="CopyButtonSrc">
+        <item name="android:tint">@color/white</item>
+        <item name="backgroundTint">@color/dThemePrimaryLightColor</item>
+    </style>
+
+    <style name="FavoriteStatus">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="CardViewLook" parent="CardView">
+        <item name="cardBackgroundColor">@color/dThemePrimaryLightColor</item>
+    </style>
+
     <style name="RecyclerViewStyle">
         <item name="android:elevation">
             4dp
@@ -28,6 +53,11 @@
             @color/dThemePrimaryLightColor
         </item>
     </style>
+
+    <style name="MainRecyclerText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 
     <style name="RecyclerView.Button" parent="Widget.AppCompat.Button.Colored">
         <item name="iconPadding">0dp</item>

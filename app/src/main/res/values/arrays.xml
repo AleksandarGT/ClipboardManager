@@ -1,9 +1,9 @@
 <resources>
     <!-- Dark Mode ListPreference -->
     <string-array name="dark_mode_entries">
-        <item>Follow System Dark Mode</item>
-        <item>Light Mode Selected</item>
-        <item>Dark Mode Selected</item>
+        <item>System default</item>
+        <item>Light Mode</item>
+        <item>Dark Mode</item>
     </string-array>
 
     <string-array name="dark_mode_values">

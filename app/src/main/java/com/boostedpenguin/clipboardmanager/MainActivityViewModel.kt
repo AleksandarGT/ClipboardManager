@@ -12,49 +12,54 @@ class MainActivityViewModel(private val repo: NoteRepository) : ViewModel() {
 
     val selectedCheckboxes = MutableLiveData<MutableList<Int>>();
 
+    val selectedNote = MutableLiveData<MutableList<Note>>()
 
     init {
         selectedCheckboxes.value = ArrayList()
+        selectedNote.value = ArrayList()
     }
 
     private fun <T> MutableLiveData<T>.notifyObserver() {
         this.value = this.value
     }
 
-    fun addPosition(position: Int) {
+    fun addPosition(position: Int, note: Note) {
         selectedCheckboxes.value?.add(position)
         selectedCheckboxes.notifyObserver()
+
+        selectedNote.value?.add(note)
+        selectedNote.notifyObserver()
     }
 
-    fun removePosition(position: Int) {
+    fun removePosition(position: Int, note: Note) {
         selectedCheckboxes.value?.remove(position)
         selectedCheckboxes.notifyObserver()
+
+        selectedNote.value!!.removeAll {
+            it.id == note.id
+        }
+        selectedNote.notifyObserver()
     }
 
     fun clearPositions() {
         selectedCheckboxes.value?.clear()
         selectedCheckboxes.notifyObserver()
+
+        selectedNote.value!!.clear()
+        selectedNote.notifyObserver()
     }
 
 
-
-    val selectedNote = mutableListOf<Note>()
-
-    fun insert(note: Note) = viewModelScope.launch {
-        repo.insert(note)
-    }
-
-    fun updateNotes(notes: List<Note>) = viewModelScope.launch {
-        repo.updateNotes(notes)
-    }
-
-    fun deleteAll() = viewModelScope.launch {
-        repo.deleteAll()
+    fun favoriteNotes() = viewModelScope.launch {
+        selectedNote.value!!.forEach {
+            it.favorite = !it.favorite
+        }
+        repo.updateNotes(selectedNote.value!!)
     }
 
     fun deleteNotes() = viewModelScope.launch {
-        repo.deleteNotes(selectedNote.map { it.id }.toList())
-        selectedNote.clear()
+        repo.deleteNotes(selectedNote.value!!.map { it.id }.toList())
+        selectedNote.value!!.clear()
     }
 }
 

@@ -14,16 +14,7 @@
         android:title="Light mode"
         android:icon="@drawable/ic_baseline_search_24"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/main_menu_1"
-        android:orderInCategory="3"
-        android:title="Light mode"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/main_menu_2"
-        android:orderInCategory="4"
-        android:title="Dark mode"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/main_menu_settings"
         android:orderInCategory="5"

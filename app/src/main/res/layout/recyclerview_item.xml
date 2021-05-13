@@ -8,6 +8,7 @@
     android:id="@+id/main"
     >
     <androidx.cardview.widget.CardView
+        style="@style/CardViewLook"
         android:id="@+id/cardView"
         app:cardCornerRadius="20dp"
         app:cardElevation="5dp"
@@ -50,12 +51,12 @@
 
             <ImageView
                 android:id="@+id/favorite_status"
+                style="@style/FavoriteStatus"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:visibility="invisible"
-                app:tint="@color/black"
                 android:src="@drawable/ic_baseline_favorite_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -94,9 +95,9 @@
         android:id="@+id/buttonCopy"
         android:layout_weight="1"
         android:src="@drawable/ic_baseline_content_copy_24"
-        android:tint="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/CopyButtonSrc"
 
         android:adjustViewBounds="true"
         android:padding="15dp"
