@@ -23,7 +23,7 @@
     <item
         android:id="@+id/action_delete"
         android:orderInCategory="1"
-        android:title="Share"
+        android:title="Delete"
         android:icon="@drawable/ic_baseline_restore_from_trash_24"
         app:showAsAction="always"/>
     <item

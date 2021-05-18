@@ -24,6 +24,7 @@ class EditNoteActivityViewModel(private val repo: NoteRepository) : ViewModel() 
 
     fun updateFavorite() = viewModelScope.launch{
         currentNote.value?.favorite = currentNote.value?.favorite!!.not()
+        repo.update((currentNote.value!!))
     }
 }
 

@@ -6,12 +6,12 @@
         android:id="@+id/main_menu_add"
         android:orderInCategory="1"
         android:icon="@drawable/ic_baseline_add_24"
-        android:title=""
+        android:title="Add"
         app:showAsAction="always" />
     <item
         android:id="@+id/main_menu_search"
         android:orderInCategory="2"
-        android:title="Light mode"
+        android:title="Search"
         android:icon="@drawable/ic_baseline_search_24"
         app:showAsAction="always" />
 

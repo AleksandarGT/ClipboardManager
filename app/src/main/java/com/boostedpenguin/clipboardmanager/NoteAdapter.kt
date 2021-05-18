@@ -50,7 +50,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         holder.textViewDescription.text = readable
 
         holder.textViewTitle.text = displayContent
-        holder.textViewId.text = currentNote.id.toString()
+        //holder.textViewId.text = currentNote.id.toString()
 
         if(notes[position].favorite) {
             holder.favoriteIcon.visibility = View.VISIBLE

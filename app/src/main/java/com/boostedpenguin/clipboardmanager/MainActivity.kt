@@ -9,6 +9,7 @@ import android.graphics.BlendModeColorFilter
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -239,12 +240,33 @@ class MainActivity : AppCompatActivity() {
                 alertDialog?.show()
                 true
             }
+            R.id.selected_action_share -> {
+                shareContent()
+                true
+            }
             android.R.id.home -> {
                 exitSelectMode()
                 true
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun shareContent() {
+
+        var contentString = ""
+        model.selectedNote.value?.forEach {
+            contentString += "${it.content}\n"
+        }
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, contentString)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, "Notes")
+        startActivity(shareIntent)
     }
 
     private fun exitSelectMode() {

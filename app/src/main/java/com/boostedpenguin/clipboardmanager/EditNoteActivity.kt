@@ -106,8 +106,73 @@ class EditNoteActivity : AppCompatActivity() {
                 invalidateOptionsMenu()
                 true
             }
-            R.id.action_share -> true
+            android.R.id.home -> {
+                onBack()
+                true
+            }
+            R.id.action_share -> {
+                shareContent()
+                true
+            }
             else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun shareContent() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, findViewById<EditText>(R.id.note_content).text.toString())
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+
+    override fun onBackPressed() {
+        onBack()
+    }
+
+
+
+
+    private fun onBack() {
+        val alertDialog: AlertDialog? = this.let {
+            val builder = MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+            builder.apply {
+                setPositiveButton("Save"
+                ) { _, _ ->
+
+                    val content = findViewById<EditText>(R.id.note_content).text.toString()
+                    if(!content.isNullOrEmpty()) {
+                        model.update(content)
+                        finish()
+                    }
+                    else {
+                        Toast.makeText(context, "Can't save an empty clipboard!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                setNegativeButton("Discard"
+                ) { _, _ ->
+
+                    finish()
+                }
+                setNeutralButton("Cancel") {
+                    dialog, _ ->
+
+                    // User cancelled the dialog
+                    dialog.cancel()
+                }
+                setTitle("Save your changes or discard them?")
+            }
+            builder.create()
+        }
+
+        if(model.currentNote.value?.content == binding.noteContent.text.toString()) {
+            finish()
+        }
+        else {
+            alertDialog?.show()
         }
     }
 

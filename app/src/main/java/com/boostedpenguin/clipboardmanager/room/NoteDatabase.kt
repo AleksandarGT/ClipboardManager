@@ -32,13 +32,7 @@ abstract class NoteDatabase : RoomDatabase() {
                     // Delete all content here.
                     noteDao.deleteAll()
 
-                    noteDao.insert(Note("Bull"))
-                    noteDao.insert(Note("Bull"))
-                    noteDao.insert(Note("Bull"))
-                    noteDao.insert(Note("Bull"))
-                    noteDao.insert(Note("Bull"))
-                    noteDao.insert(Note("Bull"))
-                    noteDao.insert(Note("Bull"))
+                    noteDao.insert(Note("Example clipboard item"))
 
                 }
             }
